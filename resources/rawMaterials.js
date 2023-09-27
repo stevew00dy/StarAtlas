@@ -1,4 +1,4 @@
-// resources/rawMaterials.js
+//resources/rawMaterials.js
 
 const rawMaterialsData = {
     arco: {
@@ -55,6 +55,13 @@ const rawMaterialsData = {
       valueUSD: 0,
       hardness: 4,
     },
+
+    surveyDataUnit: {
+      weight: 1, // Assuming it has a weight of 1 for now
+      valueAtlas: 0,
+      valueUSD: 0,
+      hardness: 1, // Assuming a low hardness since it's a data unit
+    }
   };
   
   export default rawMaterialsData;
