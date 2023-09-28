@@ -1,101 +1,52 @@
-/* Reset some default styles */
-body, h1, h2, h3, p, ul, li {
-    margin: 0;
-    padding: 0;
-    
-  }
-  
-  /* Apply a reset to remove default table styling */
-  table {
-    border-collapse: collapse;
-    width: 100%;
-    font-family: Arial, sans-serif;
-    margin-top: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    background-color: #ffffff;
-    border-radius: 8px;
-  }
-  
-  /* Style the table header */
-  th {
-    background-color: #007BFF;
-    color: #fff;
-    font-weight: bold;
-    padding: 12px 15px;
-    text-align: left;
-  }
-  
-  /* Style alternating table rows */
-  tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
-  
-  /* Style table cells */
-  td {
-    padding: 10px 15px;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  /* Hover effect on table rows */
-  tr:hover {
-    background-color: #007BFF;
-    color: #fff;
-  }
-  
-  /* Add a border around the table */
-  table {
-    border: 1px solid #ddd;
-    margin-top:0px;
-    margin-bottom: 20px;
-  }
-  
-  /* Center align text in header cells */
-  th {
-    text-align: center;
-    font-size: 14px;
-  }
-  
-  /* Center align text in table cells */
-  td {
-    text-align: center;
-    font-size: 14px;
-  }
-  
-  /* Apply some padding and margin to the app container */
-  .container {
-    padding: 20px;
-    margin: 20px;
-    max-width: 800px;
-    margin: 0 auto;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Style the dropdown */
-label {
-  display: block;
-  margin-bottom: 10px;
-  font-weight: bold;
-}
-
-#resourceSelect {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-bottom: 25px;
-}
-
-/* Style the app title */
-h1 {
-  font-size: 24px;
-  margin-bottom: 20px;
-  text-align: center;
-  color: #007BFF;
-}
-
-/* Apply padding to the body element */
 body {
-  padding: 20px;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+#nft-dropdown,
+#crafting-details {
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+#nft-dropdown {
+    width: 50%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#crafting-details {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.table {
+    width: 100%; /* Ensures the table takes up the full width of its container */
+    border-collapse: collapse; /* Removes gaps between cells */
+    margin-bottom: 20px; /* Adds some space below each table */
+}
+
+.table th, .table td {
+    border: 1px solid #ddd; /* Adds a border around each cell */
+    text-align: left; /* Aligns text to the left (adjust as needed) */
+    padding: 8px; /* Adds some padding inside each cell */
+}
+
+.table th {
+    background-color: #f2f2f2; /* Gives the header cells a grey background */
+}
+
+/* Ensures each column takes up an equal amount of space */
+.table td, .table th {
+    width: 50%;
 }

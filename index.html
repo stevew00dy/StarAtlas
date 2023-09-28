@@ -3,19 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Star Atlas Labs Crafting Guide</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <title>Star Atlas Crafting App</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Star Atlas Labs Crafting Guide</h1>
-        <label for="resourceSelect">Select an item to Craft:</label>
-        
-        <select id="resourceSelect"></select>
-        
-        <div id="craftingTree"></div>
+    <select id="nft-dropdown">
+        <!-- Options will be populated by JavaScript -->
+    </select>
+    <div id="crafting-details">
+        <!-- Crafting details will be populated by JavaScript -->
     </div>
-    <!-- Use type="module" to treat the script as a module -->
-    <script type="module" src="script.js"></script>
+    <script type="module">
+        // Importing the necessary function from script.js
+        import { populateNFTDropdown } from './script.js';
+
+        // Calling the function to populate the dropdown
+        document.addEventListener('DOMContentLoaded', () => {
+            populateNFTDropdown();
+        });
+    </script>
 </body>
 </html>

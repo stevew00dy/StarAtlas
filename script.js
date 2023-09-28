@@ -1,130 +1,439 @@
-
-
-// Import crafting tree data from separate files
-import componentsData from './resources/components.js';
-import compoundMaterialsData from './resources/compoundMaterials.js';
-import rawMaterialsData from './resources/rawMaterials.js';
-import nftData from './resources/nft.js';
-
-// Combine crafting tree data into a single object for ease of lookup
-const resourceBreakdown = {
-    ...componentsData,
-    ...compoundMaterialsData,
-    ...rawMaterialsData,
-    ...nftData
+const rawMaterials = {
+    arco: {
+        weight: 1,
+        valueInAtlas: 0,
+        valueInUsd: 0,
+        hardness: 4
+    },
+    biomass: {
+        weight: 1,
+        valueInAtlas: 0,
+        valueInUsd: 0,
+        hardness: 1
+    },
+    carbon: {
+        weight: 1,
+        valueInAtlas: 0,
+        valueInUsd: 0,
+        hardness: 1
+    },
+    copperOre: {
+        weight: 1,
+        valueInAtlas: 0,
+        valueInUsd: 0,
+        hardness: 2
+    },
+    diamond: {
+        weight: 1,
+        valueInAtlas: 0,
+        valueInUsd: 0,
+        hardness: 4
+    },
+    hydrogen: {
+        weight: 1,
+        valueInAtlas: 0,
+        valueInUsd: 0,
+        hardness: 1
+    },
+    ironOre: {
+        weight: 1,
+        valueInAtlas: 0,
+        valueInUsd: 0,
+        hardness: 2
+    },
+    lumanite: {
+        weight: 1,
+        valueInAtlas: 0,
+        valueInUsd: 0,
+        hardness: 2.5
+    },
+    rochinol: {
+        weight: 1,
+        valueInAtlas: 0,
+        valueInUsd: 0,
+        hardness: 4
+    }
 };
 
-const resourceSelect = document.getElementById("resourceSelect");
-const craftingTreeDiv = document.getElementById("craftingTree");
-
-function populateResourceDropdown() {
-    // Clear the existing options
-    resourceSelect.innerHTML = '';
-
-    // Add SDUs from resourceBreakdown
-    for (const resource in resourceBreakdown) {
-        if (resourceBreakdown[resource].type === "NFT") {
-            const option = document.createElement("option");
-            option.value = resource;
-            option.textContent = resource;
-            resourceSelect.appendChild(option);
+const compoundMaterials = {
+    crystalLattice: {
+        weight: 5,
+        valueInAtlas: 0,
+        valueInUsd: 0,
+        requires: {
+            factionCrystal: 2,
+            hydrogen: 7
+        }
+    },
+    copperWire: {
+        weight: 1,
+        valueInAtlas: 0,
+        valueInUsd: 0,
+        requires: {
+            copper: 1
+        }
+    },
+    copper: {
+        weight: 1,
+        valueInAtlas: 0,
+        valueInUsd: 0,
+        requires: {
+            copperOre: 1
+        }
+    },
+    electronics: {
+        weight: 3,
+        valueInAtlas: 0,
+        valueInUsd: 0,
+        requires: {
+            copper: 1,
+            polymer: 1
+        }
+    },
+    graphene: {
+        weight: 2,
+        valueInAtlas: 0,
+        valueInUsd: 0,
+        requires: {
+            carbon: 5
+        }
+    },
+    hydrocarbon: {
+        weight: 2,
+        valueInAtlas: 0,
+        valueInUsd: 0,
+        requires: {
+            hydrogen: 2,
+            carbon: 2
+        }
+    },
+    iron: {
+        weight: 1,
+        valueInAtlas: 0,
+        valueInUsd: 0,
+        requires: {
+            ironOre: 1
+        }
+    },
+    magnet: {
+        weight: 2,
+        valueInAtlas: 0,
+        valueInUsd: 0,
+        requires: {
+            iron: 2
+        }
+    },
+    polymer: {
+        weight: 1,
+        valueInAtlas: 0,
+        valueInUsd: 0,
+        requires: {
+            hydrocarbon: 1
+        }
+    },
+    steel: {
+        weight: 1,
+        valueInAtlas: 0,
+        valueInUsd: 0,
+        requires: {
+            carbon: 2,
+            iron: 1
+        }
+    },
+    toolkit: {
+        weight: 1,  // Adjust the weight as per your data
+        valueInAtlas: 0,
+        valueInUsd: 0,
+        requires: {
+            iron: 2
         }
     }
-    console.log("Dropdown Options:", resourceSelect.innerHTML); // Log the dropdown options
+
+};
+
+// Define your data
+const components = {
+    energySubstrate: {
+        weight: 5,
+        valueInAtlas: 0,
+        valueInUsd: 0,
+        requires: {
+            polymer: 2,
+            graphene: 1
+        }
+    },
+    electromagnet: {
+        weight: 5,
+        valueInAtlas: 0,
+        valueInUsd: 0,
+        requires: {
+            copperWire: 4,
+            magnet: 1
+        }
+    },
+    framework: {
+        weight: 2,
+        valueInAtlas: 0,
+        valueInUsd: 0,
+        requires: {
+            iron: 2
+        }
+    },
+    powerSource: {
+        weight: 4,
+        valueInAtlas: 0,
+        valueInUsd: 0,
+        requires: {
+            lumanite: 2,
+            graphene: 1
+        }
+    },
+    particleAccelerator: {
+        weight: 10,
+        valueInAtlas: 0,
+        valueInUsd: 0,
+        requires: {
+            strangeEmitter: 1,
+            superConductor: 1
+        }
+    },
+    radiationAbsorber: {
+        weight: 10,
+        valueInAtlas: 0,
+        valueInUsd: 0,
+        requires: {
+            crystalLattice: 1,
+            energySubstrate: 1
+        }
+    },
+    superConductor: {
+        weight: 5,
+        valueInAtlas: 0,
+        valueInUsd: 0,
+        requires: {
+            copperWire: 5,
+            graphene: 2
+        }
+    },
+    strangeEmitter: {
+        weight: 5,
+        valueInAtlas: 0,
+        valueInUsd: 0,
+        requires: {
+            lumanite: 4,
+            polymer: 2
+        }
+    }
+};
+
+// Define your data
+const nfts = {
+    calicoMaxhog: {
+        requires: {
+            steel: 97200,
+            polymer: 77760,
+            electronics: 38880,
+            energySubstrate: 24300,
+            sdu: 5554
+        }
+    },
+    fimbulAirbike: {
+        requires: {
+            iron: 13247,
+            toolkit: 7920,
+            copperWire: 23760,
+            powerSource: 3960,
+            sdu: 679
+        }
+    },
+    fimbulBYOSButch: {
+        requires: {
+            steel: 5410286,
+            graphene: 3606857,
+            powerSource: 1803428,
+            strangeEmitter: 1082057,
+            radiationAbsorber: 676286,
+            particleAccelerator: 541028,
+            sdu: 309159
+        }
+    },
+    fimbulECOSUnibomber: {
+        requires: {
+            copper: 28099,
+            toolkit: 16800,
+            polymer: 20160,
+            powerSource: 8400,
+            sdu: 1440
+        }
+    },
+    fimbulMamba: {
+        requires: {
+            steel: 1128600,
+            graphene: 752400,
+            copperWire: 2257200,
+            electromagnet: 282150,
+            superConductor: 225720,
+            sdu: 64491
+        }
+    },
+    fimbulMambaEx: {
+        requires: {
+            steel: 1180800,
+            hydrocarbon: 1180800,
+            magnet: 787200,
+            crystalLattice: 295200,
+            radiationAbsorber: 147600,
+            sdu: 67474
+        }
+    },
+    cssTier0: {
+        requires: {
+            iron: 59410,
+            framework: 26640,
+            polymer: 42624,
+            crystalLattice: 13320,
+            sdu: 3045
+        }
+    },
+    cssTier1: {
+        requires: {
+            framework: 446700,
+            polymer: 714720,
+            strangeEmitter: 178680,
+            powerSource: 297800,
+            electromagnet: 223350,
+            sdu: 51051
+        }
+    },
+    ogrkaTursic: {
+        requires: {
+            steel: 1648200,
+            hydrocarbon: 1648200,
+            polymer: 1318560,
+            energySubstrate: 412050,
+            superConductor: 329640,
+            sdu: 94183
+        }
+    },
+    pearceR6: {
+        requires: {
+            steel: 655200,
+            copperWire: 1310400,
+            electronics: 262080,
+            powerSource: 218400,
+            electromagnet: 163800,
+            sdu: 37440
+        }
+    },
+    pearceX4: {
+        requires: {
+            graphene: 10877,
+            toolkit: 10877,
+            copperWire: 32630,
+            powerSource: 5438,
+            sdu: 932
+        }
+    },
+    vzusSolos: {
+        requires: {
+            graphene: 9600,
+            toolkit: 9600,
+            magnet: 9600,
+            powerSource: 4800,
+            sdu: 823
+        }
+    }
+};
+
+function createTable(sectionTitle, resources) {
+    const table = document.createElement('table');
+    table.classList.add('table');
+    table.innerHTML = `<tr><th>${sectionTitle}</th><th>Quantity</th></tr>`;
+    for (const resource in resources) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${resource}</td><td>${resources[resource]}</td>`;
+        table.appendChild(tr);
+    }
+    return table;
 }
 
-function getRawMaterials(resource, quantity) {
-    let results = {};
+function accumulateRawMaterials(resource, quantity, accumulatedRaw, accumulatedCompound) {
+    if (resource in compoundMaterials) {
+        if (!(resource in accumulatedCompound)) {
+            accumulatedCompound[resource] = 0;
+        }
+        accumulatedCompound[resource] += quantity;
+        
+        for (const [subResource, subQuantity] of Object.entries(compoundMaterials[resource].requires)) {
+            accumulateRawMaterials(subResource, subQuantity * quantity, accumulatedRaw, accumulatedCompound);
+        }
+    } else if (resource in components) {
+        for (const [subResource, subQuantity] of Object.entries(components[resource].requires)) {
+            accumulateRawMaterials(subResource, subQuantity * quantity, accumulatedRaw, accumulatedCompound);
+        }
+    } else if (resource in rawMaterials) {
+        if (!(resource in accumulatedRaw)) {
+            accumulatedRaw[resource] = 0;
+        }
+        accumulatedRaw[resource] += quantity;
+    }
+}
 
-    const components = resourceBreakdown[resource]?.requires;
-    if (!components) {
-        return { [resource]: quantity };
+function displayCraftingDetails(selectedNFT) {
+    const detailsDiv = document.getElementById('crafting-details');
+    detailsDiv.innerHTML = '';  // Clear any previous details
+
+    const nftData = nfts[selectedNFT];
+    const rawMaterialAccumulation = {};
+    const compoundMaterialAccumulation = {};
+    const componentResources = {};
+
+    // Accumulate raw and compound materials
+    for (const resource in nftData.requires) {
+        accumulateRawMaterials(resource, nftData.requires[resource], rawMaterialAccumulation, compoundMaterialAccumulation);
     }
 
-    components.forEach(comp => {
-        const subMaterials = getRawMaterials(comp.resource, comp.quantity);
-        for (let material in subMaterials) {
-            if (!results[material]) {
-                results[material] = 0;
-            }
-            results[material] += subMaterials[material] * quantity;
+    // Categorize the required resources
+    for (const resource in nftData.requires) {
+        if (resource in components) {
+            componentResources[resource] = nftData.requires[resource];
         }
+    }
+
+    // Create and append tables for each section
+    if (Object.keys(componentResources).length > 0) {
+        const componentTable = createTable('Components', componentResources);
+        detailsDiv.appendChild(componentTable);
+    }
+    if (Object.keys(compoundMaterialAccumulation).length > 0) {
+        const compoundTable = createTable('Compounds', compoundMaterialAccumulation);
+        detailsDiv.appendChild(compoundTable);
+    }
+    if (Object.keys(rawMaterialAccumulation).length > 0) {
+        const rawTable = createTable('Raw Materials', rawMaterialAccumulation);
+        detailsDiv.appendChild(rawTable);
+    }
+}
+
+function convertCamelToTitle(camelCase) {
+    return camelCase
+        .replace(/([A-Z])/g, (match) => ` ${match}`)
+        .replace(/^./, (match) => match.toUpperCase())
+        .trim();
+}
+
+function populateNFTDropdown() {
+    const dropdown = document.getElementById('nft-dropdown');
+    Object.keys(nfts).forEach(nft => {
+        const option = document.createElement('option');
+        option.value = nft;
+        option.textContent = convertCamelToTitle(nft);  // Convert camelCase to title case
+        dropdown.appendChild(option);
     });
 
-    return results;
+    dropdown.addEventListener('change', () => {
+        displayCraftingDetails(dropdown.value);
+    });
 }
 
-function calculateResourceRequirements() {
-  
-    const selectedResource = resourceSelect.value;
-    
-    
-    if (!(selectedResource in resourceBreakdown)) {
-        craftingTreeDiv.innerHTML = "Resource not found.";
-        return;
-    }
-
-    const rawMaterials = getRawMaterials(selectedResource, 1);
-    console.log("Raw Materials:", rawMaterials);
-    // Split the materials into categories
-    let rawList = {};
-    let compoundList = {};
-    let componentList = {};
-
-    for (let material in rawMaterials) {
-        console.log("Material:", material); // Add this line
-        if (rawMaterialsData[material]) {
-            console.log("Raw Material Data for", material, ":", rawMaterialsData[material]); // Add this line
-            console.log("Existing Quantity in rawList for", material, ":", rawList[material]); // Add this line
-            rawList[material] = (rawList[material] || 0) + rawMaterials[material];
-            console.log("Updated Quantity in rawList for", material, ":", rawList[material]); // Add this line
-        } else if (compoundMaterialsData[material]) {
-            compoundList[material] = (compoundList[material] || 0) + rawMaterials[material];
-        } else if (componentsData[material]) {
-            componentList[material] = (componentList[material] || 0) + rawMaterials[material];
-        }
-    }
-   console.log("Raw List:", rawList);
-    console.log("Compound List:", compoundList);
-    console.log("Component List:", componentList);
-
-    console.log("Raw Materials Data:", rawMaterialsData);
-    console.log("Compound Materials Data:", compoundMaterialsData);
-    console.log("Components Data:", componentsData);
-
-    
-    // Generate the HTML for the table
-    let html = `<h2>Resource Requirements</h2>`;
-
-    html += generateTableHtml("Raw Materials", rawList);
-    html += generateTableHtml("Compound Materials", compoundList);
-    html += generateTableHtml("Components", componentList);
-
-    console.log("Generated HTML:", html); // Log the generated HTML
-
-    craftingTreeDiv.innerHTML = html;
-    
-}
-
-
-function generateTableHtml(header, list) {
-    console.log(`Generating table for ${header}, list:`, list);
-   
-    console.log(`Table for ${header} is empty. Returning empty string.`);
-    let html = `<h3>${header}</h3><table><tr><th>Resource</th><th>Quantity</th></tr>`;
-    for (let material in list) {
-        html += `<tr><td>${material}</td><td>${list[material]}</td></tr>`;
-    }
-    html += '</table>';
-    console.log("Generated HTML:", html); // Add this line to see the generated HTML
-    return html;
-
-    
-}
-
-// Event listener for resource selection
-resourceSelect.addEventListener("change", calculateResourceRequirements);
-
-// Initial setup
-populateResourceDropdown();
-calculateResourceRequirements();
+export { populateNFTDropdown };
