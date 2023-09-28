@@ -234,7 +234,7 @@ const nfts = {
             polymer: 77760,
             electronics: 38880,
             energySubstrate: 24300,
-            sdu: 5554
+            SDU: 5554
         }
     },
     fimbulAirbike: {
@@ -243,7 +243,7 @@ const nfts = {
             toolkit: 7920,
             copperWire: 23760,
             powerSource: 3960,
-            sdu: 679
+            SDU: 679
         }
     },
     fimbulBYOSButch: {
@@ -254,7 +254,7 @@ const nfts = {
             strangeEmitter: 1082057,
             radiationAbsorber: 676286,
             particleAccelerator: 541028,
-            sdu: 309159
+            SDU: 309159
         }
     },
     fimbulECOSUnibomber: {
@@ -263,7 +263,7 @@ const nfts = {
             toolkit: 16800,
             polymer: 20160,
             powerSource: 8400,
-            sdu: 1440
+            SDU: 1440
         }
     },
     fimbulMamba: {
@@ -273,7 +273,7 @@ const nfts = {
             copperWire: 2257200,
             electromagnet: 282150,
             superConductor: 225720,
-            sdu: 64491
+            SDU: 64491
         }
     },
     fimbulMambaEx: {
@@ -283,7 +283,7 @@ const nfts = {
             magnet: 787200,
             crystalLattice: 295200,
             radiationAbsorber: 147600,
-            sdu: 67474
+            SDU: 67474
         }
     },
     cssTier0: {
@@ -292,7 +292,7 @@ const nfts = {
             framework: 26640,
             polymer: 42624,
             crystalLattice: 13320,
-            sdu: 3045
+            SDU: 3045
         }
     },
     cssTier1: {
@@ -302,7 +302,7 @@ const nfts = {
             strangeEmitter: 178680,
             powerSource: 297800,
             electromagnet: 223350,
-            sdu: 51051
+            SDU: 51051
         }
     },
     ogrkaTursic: {
@@ -312,7 +312,7 @@ const nfts = {
             polymer: 1318560,
             energySubstrate: 412050,
             superConductor: 329640,
-            sdu: 94183
+            SDU: 94183
         }
     },
     pearceR6: {
@@ -322,7 +322,7 @@ const nfts = {
             electronics: 262080,
             powerSource: 218400,
             electromagnet: 163800,
-            sdu: 37440
+            SDU: 37440
         }
     },
     pearceX4: {
@@ -331,7 +331,7 @@ const nfts = {
             toolkit: 10877,
             copperWire: 32630,
             powerSource: 5438,
-            sdu: 932
+            SDU: 932
         }
     },
     vzusSolos: {
@@ -340,7 +340,7 @@ const nfts = {
             toolkit: 9600,
             magnet: 9600,
             powerSource: 4800,
-            sdu: 823
+            SDU: 823
         }
     }
 };
@@ -387,6 +387,9 @@ function displayCraftingDetails(selectedNFT) {
     const rawMaterialAccumulation = {};
     const compoundMaterialAccumulation = {};
     const componentResources = {};
+    const compoundResources = {};  // Define compoundResources here
+    const rawResources = {};  // Define rawResources here
+    const sduResources = {};
 
     // Accumulate raw and compound materials
     for (const resource in nftData.requires) {
@@ -397,11 +400,17 @@ function displayCraftingDetails(selectedNFT) {
     for (const resource in nftData.requires) {
         if (resource in components) {
             componentResources[resource] = nftData.requires[resource];
+        } else if (resource in compoundMaterials) {
+            compoundResources[resource] = nftData.requires[resource];
+        } else if (resource === 'SDU') {
+            sduResources[resource] = nftData.requires[resource];
+        } else {
+            rawResources[resource] = nftData.requires[resource];
         }
     }
 
-    // Create and append tables for each section
-    if (Object.keys(componentResources).length > 0) {
+     // Create and append tables for each section
+     if (Object.keys(componentResources).length > 0) {
         const componentTable = createTable('Components', componentResources);
         detailsDiv.appendChild(componentTable);
     }
@@ -412,6 +421,10 @@ function displayCraftingDetails(selectedNFT) {
     if (Object.keys(rawMaterialAccumulation).length > 0) {
         const rawTable = createTable('Raw Materials', rawMaterialAccumulation);
         detailsDiv.appendChild(rawTable);
+    }
+    if (Object.keys(sduResources).length > 0) {
+        const sduTable = createTable('Survey Data Unit', sduResources);
+        detailsDiv.appendChild(sduTable);
     }
 }
 
@@ -424,6 +437,13 @@ function convertCamelToTitle(camelCase) {
 
 function populateNFTDropdown() {
     const dropdown = document.getElementById('nft-dropdown');
+    
+    // Create an empty option and append it to the dropdown
+    const emptyOption = document.createElement('option');
+    emptyOption.value = '';
+    emptyOption.textContent = 'Select a Craft';
+    dropdown.appendChild(emptyOption);
+
     Object.keys(nfts).forEach(nft => {
         const option = document.createElement('option');
         option.value = nft;
@@ -432,7 +452,9 @@ function populateNFTDropdown() {
     });
 
     dropdown.addEventListener('change', () => {
-        displayCraftingDetails(dropdown.value);
+        if (dropdown.value) {  // Check if a value is selected
+            displayCraftingDetails(dropdown.value);
+        }
     });
 }
 
